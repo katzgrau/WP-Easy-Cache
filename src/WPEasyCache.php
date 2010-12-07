@@ -31,10 +31,11 @@ class WPEasyCache
     /**
      * Get an item from the cache by key
      * @param string $key The name the name of the cache item
+     * @param bool $force Force a value if it exists, even if it's expired
      * @param mixed $default
      * @return mixed
      */
-    public static function get($key, $default = FALSE)
+    public static function get($key, $default = FALSE, $force = FALSE)
     {
         $key   = self::_prepareKey($key);
         $value = self::_getOption($key, FALSE);
@@ -78,6 +79,16 @@ class WPEasyCache
         $cache = json_encode($cache);
 
         self::_setOption($key, $cache);
+    }
+
+    public static function delete($key)
+    {
+        throw new Exception("Not implemented yet");
+    }
+
+    public static function flush()
+    {
+        throw new Exception("Not implemented yet");
     }
 
     /**
