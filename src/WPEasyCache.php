@@ -43,13 +43,13 @@ class WPEasyCache
         if($value === FALSE) return $default;
 
         # Now we must have a value. Unserialize and check expiration.
-        $value = @unserialize($value);
+        $value = @json_decode($value);
 
         # Uh oh, couldn't unserialize
-        if($value === FALSE) throw new Exception("$key value wasn't unserializable.");
+        if(!is_object($value)) throw new Exception("$key value wasn't decodable.");
 
-        $expire = $value['expire'];
-        $value  = $value['value'];
+        $expire = $value->expire;
+        $value  = $value->value;
 
         # No expiration?
         if($expire === FALSE) return $value;
@@ -75,7 +75,7 @@ class WPEasyCache
             'expire' => ($expire === FALSE ? $expire : time() + $expire)
         );
 
-        $cache = serialize($cache);
+        $cache = json_encode($cache);
 
         self::_setOption($key, $cache);
     }
